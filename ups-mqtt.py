@@ -36,7 +36,6 @@ def process():
     ups = subprocess.run(["upsc", ups_name  + "@" + ups_host], stdout=subprocess.PIPE)
     lines = ups.stdout.decode('utf-8').split('\n')
 
-    msgs = []
     json_dict = {}
     for line in lines:
         fields = line.split(':')
@@ -45,7 +44,6 @@ def process():
         key = fields[0].strip()
         value = fields[1].strip()
         json_dict[key] = value
-        msgs.append((base_topic + key, value, 0, True))
     mqtt.single(base_topic + 'payload', payload=json.dumps(json_dict), hostname=mqtt_host, port=mqtt_port, auth={'username': mqtt_user, 'password': mqtt_password})
 
 
